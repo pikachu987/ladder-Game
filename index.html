@@ -55,13 +55,12 @@
         <div class="data">
             <div>
                 <div class="input-group">
-                    <span class="input-group-addon" id="user-group">유저명 입력 (구분은 ,로)</span>
-                    <!-- <input type="text" id="users" class="form-control" placeholder="test1, test2, test3" aria-describedby="user-group"> -->
-                    <input type="text" id="users" class="form-control" placeholder="test1, test2, test3" aria-describedby="user-group" value="'sosohan.bab82', 'irene_daily_ing', 'stay_gozip', '99__seok1', 'jal_mukjang', 'suldina._.a', 'miuute_plant', 'melting_piece', 'diaryofpig_eo', 'staymango.jeju', 'some_table', 'rgorgorock', 'naning_home', 'masi_dda9', 'bbang___log', 'ye.fresh', 'judyyyii', 'nua_kitchen', 'sirloin.by', 'poppy_princyy', 'ssunny2113', 'apartment.libre.summer', 'yongf_ood', 'pigmaliyong', '_blossomhome', 'salad.morning', 'home.0603', 'englishforkorean', 'gosari_table2', 'mom_e_gayo', 'songchelin_guide', '22mom_home', 'enia_table', 'easymeal___', 'kyung118', 'minhi.house', 'chaem_beauty', '__cookduck', 'dabin_table', 'dolfarmer_official', '_gs_table', 'bobchestra', 'bindonyami', 'daughter_table', 'apr__21st', 'rozy6u', 'mukohbora', '_yami_cook', 'cuisinartkorea', 'young__wonny', 'ajejxpfptk11', '_love_you_hj'">
+                    <span class="input-group-addon" id="user-group">유저명 입력 (구분은 공백이나 ,로)</span>
+                    <input type="text" id="users" class="form-control" placeholder="test1, test2, test3" aria-describedby="user-group">
                 </div>
                 <div class="input-group">
-                    <span class="input-group-addon" id="user-group">상품명 입력 (구분은 ,로)</span>
-                    <input type="text" id="products" class="form-control" placeholder="커피, 초콜렛" aria-describedby="user-group" value="커피">
+                    <span class="input-group-addon" id="user-group">상품명 입력 (구분은 공백이나 ,로)</span>
+                    <input type="text" id="products" class="form-control" placeholder="커피, 초콜렛" aria-describedby="user-group" value="커피, 커피">
                 </div>
             </div>
         </div>
@@ -177,21 +176,48 @@
 
             Load.onLoad(function() {
                 const game = new Game('display');
+                const height = $(window).height() - 200;
+                
+                function cutItems(id, count) {
+                    function cut(str, seperator, count) {
+                        let list = str.split(seperator);
+                        if (list.length < count) {
+                            return undefined;
+                        } else {
+                            return list;
+                        }
+                    }
+                    let str = $(id).val().replaceAll('\'', '');
+                    if (str == '') {
+                        return undefined;
+                    }
+                    let list = cut(str, ',', count);
+                    if (list == undefined) {
+                        list = cut(str, ' ', count)
+                    }
+                    if (list == undefined) {
+                        return undefined;
+                    } else {
+                        return list.filter(function(value) {
+                            return value != '';
+                        }).map(function(value) {
+                            return value.replaceAll(' ', '');
+                        });
+                    }
+                }
 
                 function gameStart() {
-                    const userStr = $('#users').val().replaceAll(' ', '').replaceAll('\'', '');
-                    let userList = userStr.split(',');
-                    if (userStr == '' || userList.length < 2) {
+                    let userList = cutItems('#users', 2);
+                    if (userList == undefined) {
                         alert('유저는 최소 2명이상 입력해 주세요.');
                         return;
                     }
-                    const productStr = $('#products').val().replaceAll(' ', '');
-                    let productList = productStr.split(',');
-                    if (productStr == '' || productList.length < 1) {
+                    let productList = cutItems('#products', 1);
+                    if (productList == undefined) {
                         alert('상품이 없습니다.');
                         return;
                     }
-                    game.start(900, userList, productList);
+                    game.start(height, userList, productList);
                 }
 
                 $('#generate').click(function() {
@@ -262,8 +288,6 @@
 
                 setupDefaultConfig();
                 setupConfigEvent();
-
-                gameStart();
             });
         });
     </script>
