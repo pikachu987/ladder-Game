@@ -146,11 +146,17 @@ class Canvas {
         this.clearAnimating();
     }
 
-    startUserAnimation(index, animationRoute) {
+    startUserAnimation(index, animationRoute, callback) {
         if (index == undefined) {
             let users = this.#delegate.users();
+            let callbackCount = 0;
             for (let i=0; i<users.length; i++) {
-                this.startUserAnimation(i, animationRoute);
+                this.startUserAnimation(i, animationRoute, function() { 
+                    callbackCount += 1;
+                    if (callbackCount == users.length) {
+                        callback();
+                    }
+                });
             }
         } else {
             let users = this.#delegate.users();
@@ -165,17 +171,26 @@ class Canvas {
                     this.#productAnimation(index, animationRoute, function() {
                         user.animationType = AnimationType.complete;
                         product.animationType = AnimationType.complete;
+                        if (callback != undefined && typeof(callback) == 'function') {
+                            callback()
+                        }
                     }.bind(this));
                 }.bind(this));
             }.bind(this));
         }
     }
 
-    startProductAnimation(index, animationRoute) {
+    startProductAnimation(index, animationRoute, callback) {
         if (index == undefined) {
-            let product = this.#delegate.products();
-            for (let i=0; i<product.length; i++) {
-                this.startUserAnimation(i, animationRoute);
+            let products = this.#delegate.products();
+            let callbackCount = 0;
+            for (let i=0; i<products.length; i++) {
+                this.startUserAnimation(i, animationRoute, function() { 
+                    callbackCount += 1;
+                    if (callbackCount == products.length) {
+                        callback();
+                    }
+                });
             }
         } else {
             let products = this.#delegate.products();
@@ -190,6 +205,9 @@ class Canvas {
                     this.#userAnimation(index, animationRoute, function() {
                         product.animationType = AnimationType.complete;
                         user.animationType = AnimationType.complete;
+                        if (callback != undefined && typeof(callback) == 'function') {
+                            callback()
+                        }
                     }.bind(this));
                 }.bind(this));
             }.bind(this));

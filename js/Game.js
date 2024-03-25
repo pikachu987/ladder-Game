@@ -26,6 +26,22 @@ class Game {
         });
     }
 
+    getResults() {
+        let list = [];
+        for (let i=0; i<this.#users.length; i++) {
+            let user = this.#users[i];
+            let product = this.#products[user.destinationIndex];
+            list.push({
+                username: user.text,
+                userIndex: i,
+                productName: product.text,
+                productIndex: user.destinationIndex,
+                isWinning: product.isWinning
+            });
+        }
+        return list;
+    }
+
     destory() {
         this.#destoryUsers();
         this.#destoryProducts();
@@ -102,6 +118,14 @@ class Game {
         this.clearCanvas();
         this.#calcAndCanvasDraw();
     }
+    
+    userAnimation(callback) {
+        this.#canvas.startUserAnimation(undefined, AnimationRoute.interaction, callback);
+    }
+
+    productAnimation(callback) {
+        this.#canvas.startProductAnimation(undefined, AnimationRoute.interaction, callback);
+    }
 
     #calcAndCanvasDraw() {
         let fontSize = CalculatorData.searchOptimalFontSize(this.#users, this.#products, Config.text.baseFontSize);
@@ -152,8 +176,13 @@ class Game {
     }
 
     #updateDummyProducts(userCount, products) {
+        for (let i=0; i<this.#products.length; i++) {
+            this.#products[i].isWinning = true;
+        }
         for (let i=products.length; i<userCount; i++) {
-            products.push(new Product(Config.text.loseText));
+            let product = new Product(Config.text.loseText);
+            product.isWinning = false;
+            products.push(product);
         }
         products = Utils.shuffle(products);
         return products;

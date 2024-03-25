@@ -24,8 +24,19 @@
         .btn-group {
             margin: 0px 50px;
         }
+        .btn-group > button {
+            margin: 0px 10px;
+            padding: 12px 22px;
+        }
         .setting {
             margin: 8px 50px;
+        }
+        #results {
+            margin: 20px 50px;
+        }
+        #results > span {
+            font-size: 20px;
+            font-weight: bold;
         }
         .config-content-margin {
             width: 440px;
@@ -67,6 +78,7 @@
         <div class="btn-group">
             <button type="button" id="generate" class="btn btn-primary">새로 만들기</button>
             <button type="button" id="setting" class="btn btn-primary">설정</button>
+            <button type="button" id="result" class="btn btn-primary">결과</button>
         </div>
         <div class="setting">
             <div>
@@ -143,6 +155,7 @@
                 </div>
             </div>
         </div>
+        <div id="results"></div>
         <div id="display"></div>
     </div>
 
@@ -176,7 +189,7 @@
 
             Load.onLoad(function() {
                 const game = new Game('display');
-                const height = $(window).height() - 200;
+                const height = $(window).height() - 300;
                 
                 function cutItems(id, count) {
                     function cut(str, seperator, count) {
@@ -222,6 +235,21 @@
 
                 $('#generate').click(function() {
                     gameStart();
+                });
+
+                $('#result').click(function() {
+                    if (!game.isStart) { return; }
+                    game.userAnimation(function() {
+                        let results = game.getResults();
+                        let winnings = results.filter(function(result) {
+                            return result.isWinning;
+                        }).map(function(winning) {
+                            return `<br/><span>🎉 ${winning.username} 님: ${winning.productName} 당첨 🎉<span>`;
+                        }).reduce(function(acc, cur, idx) {
+                            return acc + cur;
+                        });
+                        $('#results').html(`<span>축하드립니다.</span>${winnings}`);
+                    });
                 });
 
                 function setupDefaultConfig() {

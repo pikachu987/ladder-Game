@@ -21,4 +21,15 @@ const AnimationRoute = Object.freeze({
             return id.replace(`${this.prefix()}_`, '');
         }
     },
+    interaction: {
+        prefix: function() {
+            return 'interaction';
+        },
+        combineAnimationID: function(id) {
+            return `${this.prefix()}_${id}`;
+        },
+        removePrefix: function(id) {
+            return id.replace(`${this.prefix()}_`, '');
+        }
+    },
 });
