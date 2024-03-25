@@ -1,0 +1,17 @@
+const ColorTypes = Object.freeze({
+    color1: { value: function(alpha) { return 'rgba(255,179,186,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color2: { value: function(alpha) { return 'rgba(255,223,186,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color3: { value: function(alpha) { return 'rgba(255,255,186,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color4: { value: function(alpha) { return 'rgba(186,255,201,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color5: { value: function(alpha) { return 'rgba(186,225,255,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color6: { value: function(alpha) { return 'rgba(255,217,217,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color7: { value: function(alpha) { return 'rgba(255,242,204,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color8: { value: function(alpha) { return 'rgba(234,209,220,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color9: { value: function(alpha) { return 'rgba(252,229,205,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color10: { value: function(alpha) { return 'rgba(217,210,233,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color11: { value: function(alpha) { return 'rgba(254,229,206,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color12: { value: function(alpha) { return 'rgba(213,187,193,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color13: { value: function(alpha) { return 'rgba(178,160,180,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color14: { value: function(alpha) { return 'rgba(133,123,145,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+    color15: { value: function(alpha) { return 'rgba(90,85,107,' + (alpha == undefined ? Config.animation.line.colorOpacity : alpha) + ')'; } },
+});
